@@ -8,7 +8,10 @@ import { Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+  oneDark,
+  oneLight,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
 
 type AIInput = { query: string };
 type AIOutputput = { rows: string[] };
@@ -82,7 +85,12 @@ export default function Chat() {
                           <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             components={{
-                              code({ node, inline, className, children, ...props }) {
+                              code({ node, inline, className, children, ...props }: {
+                                node?: any;
+                                inline?: boolean;
+                                className?: string;
+                                children?: React.ReactNode;
+                              }) {
                                 const match = /language-(\w+)/.exec(
                                   className || ""
                                 );
@@ -91,6 +99,10 @@ export default function Chat() {
                                     style={isDark ? oneDark : oneLight}
                                     language={match[1]}
                                     PreTag="div"
+                                    customStyle={{
+                                      borderRadius: "8px",
+                                      padding: "12px",
+                                    }}
                                     {...props}
                                   >
                                     {String(children).replace(/\n$/, "")}
@@ -122,12 +134,14 @@ export default function Chat() {
                               {(part.input as AIInput).query}
                             </pre>
                           )}
-                          {(part.state === "output-available" &&
-                            (part.output as AIOutputput)) && (
+                          {part.state === "output-available" &&
+                            (part.output as AIOutputput) && (
                               <div className="text-sm text-green-700 dark:text-green-300">
-                                ✅ Returned {(part.output as AIOutputput).rows?.length || 0} rows
+                                ✅ Returned{" "}
+                                {(part.output as AIOutputput).rows?.length || 0}{" "}
+                                rows
                               </div>
-                          )}
+                            )}
                         </div>
                       );
 
