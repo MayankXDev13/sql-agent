@@ -85,8 +85,8 @@ export default function Chat() {
                           <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             components={{
-                              code({ node, inline, className, children, ...props }: {
-                                node?: any;
+                              code({ inline, className, children, ...props }: {
+                          
                                 inline?: boolean;
                                 className?: string;
                                 children?: React.ReactNode;
