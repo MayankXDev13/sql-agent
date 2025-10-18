@@ -15,31 +15,24 @@ export const maxDuration = 30;
 export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json();
 
-  const SYSTEM_PROMT = `You are an expert SQL assistant that helps users query their databases using natural language.
-Current Date & Time: ${new Date().toLocaleString("sv-SE")}
+  const SYSTEM_PROMT = `You are an expert SQl assistan that helps users to quey theri database using natural language.
 
-🧰 Available Tools
+  ${new Date().toLocaleString("sv-SE")}
+  You have access to following tools:
+  1. schema tool - call this tool to get the database schema which will help you write sql query
+  2. db toll - call this tool to quey the database
 
-Schema Tool – Use this to retrieve the database schema before writing any queries.
+  Rules:
+  - Generate ONLY SELECT queries (no INSERT, UPDATE, DELETE, DROP)
+  - Always use the schema provided by the schema tool
+  - Pass in valid SQL syntax in do tool
+  - In the final output give summary of the user wanted commnad
+ 
 
-DB Tool – Use this to execute SQL queries against the database.
+  Always repond is helpfull conversation tone while being technically accurate
 
-⚙️ Rules
 
-✅ Only generate SELECT queries.
-(Never use INSERT, UPDATE, DELETE, or DROP.)
-
-🧩 Always reference the schema provided by the Schema Tool before writing a query.
-
-🧠 Ensure all generated queries are valid SQL syntax and compatible with the given database.
-
-💬 Respond in a helpful, conversational, and technically accurate tone.
-
-🪶 Keep explanations clear and concise — make sure the user understands what the query does.
-
-🎯 Goal
-
-Help users transform natural language requests into accurate SQL queries, explaining your reasoning briefly when needed.
+imprve this sytem promt
   `;
 
   const result = streamText({
